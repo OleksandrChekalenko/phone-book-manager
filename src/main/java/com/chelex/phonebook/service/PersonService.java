@@ -8,6 +8,8 @@ import com.chelex.phonebook.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PersonService {
@@ -15,9 +17,13 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonConverter personConverter;
 
+    public List<PersonDto> getAll() {
+        List<Person> persons = personRepository.findAll();
+        return personConverter.convert(persons);
+    }
+
     public PersonDto getPerson(String firstName) {
         Person person = personRepository.getReferenceByFirstName(firstName);
-        personConverter.convert(person);
         return personConverter.convert(person);
     }
 

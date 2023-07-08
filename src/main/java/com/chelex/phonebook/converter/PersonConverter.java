@@ -6,6 +6,8 @@ import com.chelex.phonebook.domain.request.PersonRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonConverter {
@@ -17,6 +19,16 @@ public class PersonConverter {
             .createdAt(person.getCreatedAt())
             .updatedAt(person.getUpdatedAt())
             .build();
+    }
+
+    public List<PersonDto> convert(List<Person> persons) {
+        return persons.stream().map(person -> PersonDto.builder()
+                .firstName(person.getFirstName())
+                .lastName(person.getLastName())
+                .createdAt(person.getCreatedAt())
+                .updatedAt(person.getUpdatedAt())
+                .build()).collect(Collectors.toList());
+
     }
 
     public Person convert(PersonRequest personRequest) {

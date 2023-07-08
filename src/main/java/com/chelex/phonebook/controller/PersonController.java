@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 @Validated
@@ -22,9 +24,9 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("answer");
+    @GetMapping("/persons")
+    public ResponseEntity<List<PersonDto>> getAll() {
+        return ResponseEntity.ok(personService.getAll());
     }
 
     @GetMapping("/person")
