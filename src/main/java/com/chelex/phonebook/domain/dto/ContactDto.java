@@ -6,16 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.KebabCaseStrategy.class)
-public class PersonDto {
+public class ContactDto {
 
     private String firstName;
     private String lastName;
+    private String email;
+    private String phoneNumber;
+    private String city;
     private Date createdAt;
     private Date updatedAt;
-    private List<ContactDto> contacts;
 }
