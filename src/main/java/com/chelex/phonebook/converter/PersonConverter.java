@@ -28,7 +28,6 @@ public class PersonConverter {
                 .createdAt(person.getCreatedAt())
                 .updatedAt(person.getUpdatedAt())
                 .build()).collect(Collectors.toList());
-
     }
 
     public Person convert(PersonRequest personRequest) {

@@ -18,8 +18,7 @@ public class PersonService {
     private final PersonConverter personConverter;
 
     public List<PersonDto> getAll() {
-        List<Person> persons = personRepository.findAll();
-        return personConverter.convert(persons);
+        return personConverter.convert(personRepository.findAll());
     }
 
     public PersonDto getPerson(String firstName) {
