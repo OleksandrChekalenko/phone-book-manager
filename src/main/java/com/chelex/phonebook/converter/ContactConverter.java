@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 public class ContactConverter {
 
     public List<ContactDto> convert(List<Contact> contacts) {
-        return contacts.stream().map(this::convert).collect(Collectors.toList());
+        return contacts.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     public ContactDto convert(Contact contact) {
