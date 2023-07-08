@@ -89,14 +89,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.3.0</version>
 				<configuration>
 					<configLocation>checkstyle.xml</configLocation>
+					<outputFileFormat>xml</outputFileFormat>
+					<includes>**/*.java</includes>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
 				</configuration>
 				<executions>
 					<execution>
+						<id>check-style</id>
+						<phase>compile</phase>
 						<goals>
-							<goal>check</goal>
+							<goal>checkstyle</goal>
 						</goals>
 					</execution>
 				</executions>

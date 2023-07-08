@@ -71,9 +71,10 @@
     <!-- Checks for Size Violations.                    -->
     <!-- See https://checkstyle.org/checks/sizes/index.html -->
     <module name="FileLength"/>
-<!--    <module name="LineLength">-->
-<!--        <property name="fileExtensions" value="java"/>-->
-<!--    </module>-->
+    <module name="LineLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="120"/>
+    </module>
 
     <!-- Checks for whitespace                               -->
     <!-- See https://checkstyle.org/checks/whitespace/index.html -->
@@ -193,6 +194,14 @@
 <!--            <property name="optional" value="true"/>-->
 <!--        </module>-->
 
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="8"/>
+            <property name="throwsIndent" value="8"/>
+            <property name="lineWrappingIndentation" value="8"/>
+            <property name="arrayInitIndent" value="8"/>
+        </module>
     </module>
 
 </module>
