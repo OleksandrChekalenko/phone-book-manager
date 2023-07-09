@@ -23,6 +23,7 @@ public class PersonConverter {
         }
 
         return PersonDto.builder()
+                .uuid(person.getUuid())
                 .firstName(person.getFirstName())
                 .lastName(person.getLastName())
                 .contacts(contactConverter.convert(person.getContacts()))

@@ -18,6 +18,7 @@ public class ContactConverter {
 
     public ContactDto convert(Contact contact) {
         return ContactDto.builder()
+                .uuid(contact.getUuid())
                 .firstName(contact.getFirstName())
                 .lastName(contact.getLastName())
                 .email(contact.getEmail())

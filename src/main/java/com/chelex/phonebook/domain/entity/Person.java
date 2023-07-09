@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,6 +27,7 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String uuid = UUID.randomUUID().toString();
     private String firstName;
     private String lastName;
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)

@@ -13,6 +13,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.KebabCaseStrategy.class)
 public class PersonDto {
 
+    private String uuid;
     private String firstName;
     private String lastName;
     private Date createdAt;

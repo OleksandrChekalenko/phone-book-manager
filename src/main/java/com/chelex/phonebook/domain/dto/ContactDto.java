@@ -12,6 +12,7 @@ import java.util.Date;
 @JsonNaming(PropertyNamingStrategies.KebabCaseStrategy.class)
 public class ContactDto {
 
+    private String uuid;
     private String firstName;
     private String lastName;
     private String email;
