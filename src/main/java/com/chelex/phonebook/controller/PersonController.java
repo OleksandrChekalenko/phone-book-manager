@@ -30,7 +30,7 @@ public class PersonController {
     }
 
     @GetMapping("/person")
-    public ResponseEntity<PersonDto> getPersonByName(@RequestParam String firstName) {
+    public ResponseEntity<PersonDto> getPersonByName(@RequestParam(value = "first-name") String firstName) {
         PersonDto person = personService.getPerson(firstName);
         return ResponseEntity.ok(person);
     }

@@ -78,7 +78,7 @@
 
     <!-- Checks for whitespace                               -->
     <!-- See https://checkstyle.org/checks/whitespace/index.html -->
-<!--    <module name="FileTabCharacter"/>-->
+    <module name="FileTabCharacter"/>
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See https://checkstyle.org/checks/misc/index.html -->
@@ -202,6 +202,14 @@
             <property name="lineWrappingIndentation" value="8"/>
             <property name="arrayInitIndent" value="8"/>
         </module>
+
+<!--        throw 'com.google.common.collect.ImmutableList com.google.common.collect.ImmutableList.copyOf(java.lang.Object[])'-->
+<!--        <module name="Test">-->
+<!--            <module name="AnnotationUseStyle">-->
+<!--                <property name="allowMissingJavadoc" value="true"/>-->
+<!--                <property name="annotation" value="org.junit.Test"/>-->
+<!--            </module>-->
+<!--        </module>-->
     </module>
 
 </module>
