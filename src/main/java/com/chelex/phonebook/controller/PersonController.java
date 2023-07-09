@@ -3,6 +3,7 @@ package com.chelex.phonebook.controller;
 import com.chelex.phonebook.domain.dto.PersonDto;
 import com.chelex.phonebook.domain.request.PersonRequest;
 import com.chelex.phonebook.service.PersonService;
+import com.chelex.phonebook.util.response.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,19 +26,20 @@ public class PersonController {
     private final PersonService personService;
 
     @GetMapping("/persons")
-    public ResponseEntity<List<PersonDto>> getAll() {
-        return ResponseEntity.ok(personService.getAll());
+    public ResponseEntity<SuccessResponse<List<PersonDto>>> getAll() {
+        return ResponseEntity.ok(SuccessResponse.<List<PersonDto>>builder().data(personService.getAll()).build());
     }
 
     @GetMapping("/person")
-    public ResponseEntity<PersonDto> getPersonByName(@RequestParam(value = "first-name") String firstName) {
+    public ResponseEntity<SuccessResponse<PersonDto>> getPersonByName(
+            @RequestParam(value = "first-name") String firstName) {
         PersonDto person = personService.getPerson(firstName);
-        return ResponseEntity.ok(person);
+        return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(person).build());
     }
 
     @PostMapping("/person")
-    public ResponseEntity<PersonDto> createPerson(@RequestBody @Valid PersonRequest person) {
+    public ResponseEntity<SuccessResponse<PersonDto>> createPerson(@RequestBody @Valid PersonRequest person) {
         PersonDto personDto = personService.createPerson(person);
-        return ResponseEntity.ok(personDto);
+        return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(personDto).build());
     }
 }

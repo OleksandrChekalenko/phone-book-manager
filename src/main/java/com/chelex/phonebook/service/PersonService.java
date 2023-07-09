@@ -5,6 +5,7 @@ import com.chelex.phonebook.domain.dto.PersonDto;
 import com.chelex.phonebook.domain.entity.Person;
 import com.chelex.phonebook.domain.request.PersonRequest;
 import com.chelex.phonebook.repository.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,11 @@ public class PersonService {
     }
 
     public PersonDto getPerson(String firstName) {
-        Person person = personRepository.getReferenceByFirstName(firstName);
+        Person person = personRepository.getReferenceByFirstName(firstName)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                String.format("Person with first name: %s does not exist.", firstName)));
+
         return personConverter.convert(person);
     }
 

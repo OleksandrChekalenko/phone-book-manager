@@ -18,6 +18,10 @@ public class PersonConverter {
 
 
     public PersonDto convert(Person person) {
+        if (person == null) {
+            return null;
+        }
+
         return PersonDto.builder()
                 .firstName(person.getFirstName())
                 .lastName(person.getLastName())

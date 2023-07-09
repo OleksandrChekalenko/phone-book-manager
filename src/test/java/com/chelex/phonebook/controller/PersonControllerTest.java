@@ -45,8 +45,9 @@ class PersonControllerTest {
 
             mockMvc.perform(MockMvcRequestBuilders.get(GET_ALL_PATH))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0]").exists())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$[0].first-name").value(FIRST_NAME));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data[0]").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].first-name").value(FIRST_NAME));
 //            .andExpect etc
 
             Mockito.verify(personService).getAll();
@@ -59,7 +60,8 @@ class PersonControllerTest {
 
             mockMvc.perform(MockMvcRequestBuilders.get(GET_PERSON_PATH).param(FIRST_NAME_PARAM, FIRST_NAME))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath(FIRST_NAME_PARAM).value(FIRST_NAME));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data." + FIRST_NAME_PARAM).value(FIRST_NAME));
 
             Mockito.verify(personService).getPerson(FIRST_NAME);
         }
