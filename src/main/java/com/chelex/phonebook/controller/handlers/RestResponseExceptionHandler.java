@@ -1,5 +1,6 @@
 package com.chelex.phonebook.controller.handlers;
 
+import com.chelex.phonebook.util.exception.Error;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,9 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(exception.getMessage());
+        Error error = Error.builder()
+                .errorDetails(new Error.ErrorDetails(HttpStatus.NOT_FOUND.value(), exception.getMessage()))
+                .build();
+        return ResponseEntity.status(error.getErrorDetails().getStatus()).body(error);
     }
 }
