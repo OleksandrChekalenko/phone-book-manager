@@ -37,6 +37,13 @@ public class PersonController {
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(person).build());
     }
 
+    @GetMapping("/personUuid")
+    public ResponseEntity<PersonDto> getPersonByUuid(
+            @RequestParam(value = "uuid") String uuid) {
+        PersonDto person = personService.getPersonByUuid(uuid);
+        return ResponseEntity.ok(person);
+    }
+
     @PostMapping("/person")
     public ResponseEntity<SuccessResponse<PersonDto>> createPerson(@RequestBody @Valid PersonRequest person) {
         PersonDto personDto = personService.createPerson(person);

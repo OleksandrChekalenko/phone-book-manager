@@ -31,6 +31,14 @@ public class PersonService {
         return personConverter.convert(person);
     }
 
+    public PersonDto getPersonByUuid(String uuid) {
+        Person person = personRepository.findByUuid(uuid).orElseThrow(() ->
+                new EntityNotFoundException(
+                        String.format("Person with uuid: %s does not exist.", uuid)));
+
+        return personConverter.convert(person);
+    }
+
     public PersonDto createPerson(PersonRequest person) {
         Person savedPerson = personRepository.save(personConverter.convert(person));
         return personConverter.convert(savedPerson);
