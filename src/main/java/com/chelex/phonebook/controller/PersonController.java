@@ -32,7 +32,7 @@ public class PersonController {
 
     @GetMapping("/person")
     public ResponseEntity<SuccessResponse<PersonDto>> getPersonByName(
-            @RequestParam(value = "first-name") String firstName) {
+        @RequestParam(value = "first-name") String firstName) {
         PersonDto person = personService.getPerson(firstName);
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(person).build());
     }
@@ -48,5 +48,10 @@ public class PersonController {
     public ResponseEntity<SuccessResponse<PersonDto>> createPerson(@RequestBody @Valid PersonRequest person) {
         PersonDto personDto = personService.createPerson(person);
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(personDto).build());
+    }
+
+    @GetMapping("/personByUuid")
+    public ResponseEntity<SuccessResponse<PersonDto>> getPersonByUuid(@RequestParam String uuid) {
+        return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(personService.getPersonByUuid(uuid)).build());
     }
 }

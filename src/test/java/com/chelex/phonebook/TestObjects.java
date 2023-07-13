@@ -5,12 +5,29 @@ import com.chelex.phonebook.domain.dto.PersonDto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class TestObjects {
 
+    public static String getRandomUuid() {
+        return UUID.randomUUID().toString();
+    }
+
     public static PersonDto getPersonDto(String firstName) {
         return PersonDto.builder()
+                .uuid(getRandomUuid())
                 .firstName(firstName)
+                .lastName("TestLastName")
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .contacts(List.of(getContactDto()))
+                .build();
+    }
+
+    public static PersonDto getPersonDtoWithUuid(String uuid) {
+        return PersonDto.builder()
+                .uuid(uuid)
+                .firstName("TestFirstName")
                 .lastName("TestLastName")
                 .createdAt(new Date())
                 .updatedAt(new Date())
