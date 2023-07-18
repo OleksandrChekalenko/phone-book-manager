@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @Entity
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person {

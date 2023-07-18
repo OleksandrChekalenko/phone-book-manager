@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.Date;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
 public class Contact {
