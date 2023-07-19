@@ -1,5 +1,6 @@
 package com.chelex.phonebook.service;
 
+import com.chelex.phonebook.constant.CacheConstant;
 import com.chelex.phonebook.converter.ContactConverter;
 import com.chelex.phonebook.domain.dto.ContactDto;
 import com.chelex.phonebook.domain.entity.Contact;
@@ -8,6 +9,7 @@ import com.chelex.phonebook.repository.ContactRepository;
 import com.chelex.phonebook.repository.specification.ContactSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,9 @@ public class ContactService {
         return contactConverter.convert(contact);
     }
 
+    // use @CacheEvict(value = CacheConstant.ALL_PERSONS_CONTACTS, key = "#uuid")
+    // to drop cash by uuid if Persons contact updated
+    @Cacheable(value = CacheConstant.ALL_PERSONS_CONTACTS, key = "#uuid")
     public List<ContactDto> getPersonContactsByUuid(String uuid) {
         List<Contact> contact = contactRepository.getContactsByPersonUuid(uuid)
             .orElseThrow(() ->

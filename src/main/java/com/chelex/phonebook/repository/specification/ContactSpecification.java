@@ -16,7 +16,6 @@ public class ContactSpecification {
    * /  join contact on p.id = contact.person_id
    * /  where  p.uuid = '97baf8ee-20b9-11ee-b3c9-0242ac170002';
    */
-
   public Specification<Contact> personUuid(String uuid) {
     if (!StringUtils.hasText(uuid)) {
       return null;
