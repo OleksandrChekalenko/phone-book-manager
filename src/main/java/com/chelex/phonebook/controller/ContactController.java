@@ -25,33 +25,37 @@ public class ContactController {
     private final ContactService contactService;
 
     @GetMapping("/contacts")
-    public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactById(@RequestParam(value = "person-id") Long personId) {
+    public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactById(
+            @RequestParam(value = "person-id") Long personId) {
+
         return ResponseEntity.ok(SuccessResponse.<List<ContactDto>>builder()
-            .data(contactService.getPersonContacts(personId))
-            .build());
+                .data(contactService.getPersonContacts(personId))
+                .build());
     }
 
     @GetMapping("/contacts/{personUuid}/get")
-    public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactsByUuid(@PathVariable @UUID String personUuid) {
+    public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactsByUuid(
+            @PathVariable @UUID String personUuid) {
+
         return ResponseEntity.ok(SuccessResponse.<List<ContactDto>>builder()
-            .data(contactService.getPersonContactsByUuid(personUuid))
-            .build());
+                .data(contactService.getPersonContactsByUuid(personUuid))
+                .build());
     }
 
     @GetMapping("/contacts/search/{personUuid}")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> searchContacts(
-        @PathVariable @UUID String personUuid,
-        @RequestParam(value = "first-name", required = false) String firstName,
-        @RequestParam(value = "last-name", required = false) String lastName,
-        @RequestParam(required = false) String city,
-        @RequestParam(required = false) String email) {
+            @PathVariable @UUID String personUuid,
+            @RequestParam(value = "first-name", required = false) String firstName,
+            @RequestParam(value = "last-name", required = false) String lastName,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String email) {
         ContactSearchCriteria contactSearchCriteria = ContactSearchCriteria.builder()
-            .personUuid(personUuid)
-            .firstName(firstName)
-            .lastName(lastName)
-            .city(city)
-            .email(email)
-            .build();
+                .personUuid(personUuid)
+                .firstName(firstName)
+                .lastName(lastName)
+                .city(city)
+                .email(email)
+                .build();
 
         List<ContactDto> contacts = contactService.searchContactsByCriteria(contactSearchCriteria);
 

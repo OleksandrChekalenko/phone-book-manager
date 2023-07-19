@@ -38,16 +38,17 @@ public class ContactService {
     @Cacheable(value = CacheConstant.ALL_PERSONS_CONTACTS, key = "#uuid")
     public List<ContactDto> getPersonContactsByUuid(String uuid) {
         List<Contact> contact = contactRepository.getContactsByPersonUuid(uuid)
-            .orElseThrow(() ->
-                new EntityNotFoundException(
-                    String.format("Cannot find persons: %s contacts.", uuid)));
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                String.format("Cannot find persons: %s contacts.", uuid)));
 
         return contactConverter.convert(contact);
     }
 
     public List<ContactDto> searchContactsByCriteria(ContactSearchCriteria contactSearchCriteria) {
-        Specification<Contact> specification = Specification.where(contactSpecification.personUuid(contactSearchCriteria.getPersonUuid()))
-          .and(contactSpecification.nameLike(contactSearchCriteria.getFirstName()));
+        Specification<Contact> specification =
+                Specification.where(contactSpecification.personUuid(contactSearchCriteria.getPersonUuid()))
+                .and(contactSpecification.nameLike(contactSearchCriteria.getFirstName()));
         List<Contact> all = contactRepository.findAll(specification);
         return contactConverter.convert(all);
     }
