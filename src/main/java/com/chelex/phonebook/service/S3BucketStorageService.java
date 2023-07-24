@@ -78,4 +78,15 @@ public class S3BucketStorageService {
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Deletes file from AWS S3 bucket
+     *
+     * @param fileName s3 file name to delete
+     * @return string with delete filename
+     */
+    public String deleteFile(final String fileName) {
+        amazonS3Client.deleteObject(bucketName, fileName);
+        return "Deleted File: " + fileName;
+    }
 }
