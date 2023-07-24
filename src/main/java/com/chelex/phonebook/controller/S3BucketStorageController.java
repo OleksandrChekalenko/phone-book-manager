@@ -23,9 +23,9 @@ public class S3BucketStorageController {
     private final S3BucketStorageService s3Service;
 
     @PostMapping("/file/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("fileName") String fileName,
-                                             @RequestParam("file") MultipartFile file) {
-        return new ResponseEntity<>(s3Service.uploadFile(file), HttpStatus.OK);
+    public ResponseEntity<String> uploadFile(@RequestParam String folderPath,
+                                             @RequestParam MultipartFile file) {
+        return new ResponseEntity<>(s3Service.uploadFile(file, folderPath), HttpStatus.OK);
     }
 
     @GetMapping("/all-files-names")
@@ -47,7 +47,7 @@ public class S3BucketStorageController {
     }
 
     @GetMapping(value = "/delete/{fileName}")
-    public ResponseEntity<String> deleteFile(@PathVariable() String fileName) {
-        return new ResponseEntity<>(s3Service.deleteFile(fileName), HttpStatus.OK);
+    public ResponseEntity<String> deleteFile(@PathVariable String fileName, @RequestParam String filePath) {
+        return new ResponseEntity<>(s3Service.deleteFile(fileName, filePath), HttpStatus.OK);
     }
 }

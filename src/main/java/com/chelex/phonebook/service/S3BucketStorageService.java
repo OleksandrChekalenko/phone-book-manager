@@ -3,10 +3,12 @@ package com.chelex.phonebook.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,12 +36,13 @@ public class S3BucketStorageService {
      * @param file {MultipartFile} file
      * @return String
      */
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile(MultipartFile file, String folderPath) {
+        String filePath = folderPath + "/";
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucketName, file.getOriginalFilename(), file.getInputStream(), metadata);
-            return "File uploaded: " + file.getName();
+            amazonS3Client.putObject(bucketName, filePath + file.getOriginalFilename(), file.getInputStream(), metadata);
+            return "File uploaded: " + file.getOriginalFilename();
         } catch (IOException ioe) {
             log.error("IOException: " + ioe.getMessage());
         } catch (AmazonServiceException serviceException) {
@@ -49,7 +52,7 @@ public class S3BucketStorageService {
             log.info("AmazonClientException Message: " + clientException.getMessage());
             throw clientException;
         }
-        return "File not uploaded: " + file.getName();
+        return "File not uploaded: " + filePath + file.getOriginalFilename();
     }
 
     public List<String> getListFilesNames() {
@@ -85,8 +88,15 @@ public class S3BucketStorageService {
      * @param fileName s3 file name to delete
      * @return string with delete filename
      */
-    public String deleteFile(final String fileName) {
-        amazonS3Client.deleteObject(bucketName, fileName);
+    public String deleteFile(final String fileName, final String filePath) {
+        String path = filePath + '/';
+        amazonS3Client.deleteObject(bucketName, path + fileName);
+        try {
+            amazonS3Client.getObject(bucketName, path + fileName);
+        } catch (AmazonS3Exception e) {
+            throw new EntityNotFoundException("Cannot delete file. The specified key does not exist.");
+        }
+        log.info("File is deleted. Full path: " + bucketName + path);
         return "Deleted File: " + fileName;
     }
 }
