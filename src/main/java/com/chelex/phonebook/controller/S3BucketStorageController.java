@@ -48,6 +48,6 @@ public class S3BucketStorageController {
 
     @GetMapping(value = "/delete/{fileName}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileName, @RequestParam String filePath) {
-        return new ResponseEntity<>(s3Service.deleteFile(fileName, filePath), HttpStatus.OK);
+        return new ResponseEntity<>(s3Service.deleteFile(filePath, fileName), HttpStatus.OK);
     }
 }

@@ -3,7 +3,6 @@ package com.chelex.phonebook.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
@@ -88,15 +87,21 @@ public class S3BucketStorageService {
      * @param fileName s3 file name to delete
      * @return string with delete filename
      */
-    public String deleteFile(final String fileName, final String filePath) {
-        String path = filePath + '/';
-        amazonS3Client.deleteObject(bucketName, path + fileName);
-        try {
-            amazonS3Client.getObject(bucketName, path + fileName);
-        } catch (AmazonS3Exception e) {
-            throw new EntityNotFoundException("Cannot delete file. The specified key does not exist.");
+    public String deleteFile(final String filePath, final String fileName) {
+        String fullPath = filePath + "/" + fileName;
+
+        if (amazonS3Client.doesObjectExist(bucketName, fullPath)) {
+            amazonS3Client.deleteObject(bucketName, fullPath);
+            if (!amazonS3Client.doesObjectExist(bucketName, fullPath)) {
+                log.info("File is deleted. Full path: " + bucketName + "/" + fullPath);
+                return "Deleted File: " + fileName;
+            }
+        } else {
+            throw new EntityNotFoundException("File not found before delete it. The specified key does not exist. "
+                    + bucketName + "/" + fullPath);
         }
-        log.info("File is deleted. Full path: " + bucketName + path);
-        return "Deleted File: " + fileName;
+
+        throw new EntityNotFoundException("File is NOT deleted for some reason. Full path: " + bucketName + "/" + fullPath);
+
     }
 }
