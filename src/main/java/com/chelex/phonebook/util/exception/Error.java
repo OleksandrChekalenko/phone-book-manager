@@ -19,9 +19,6 @@ public class Error {
     private ErrorDetails errorDetails;
 
     @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class ErrorDetails {
         private String id = UUID.randomUUID().toString();
         private int status;
