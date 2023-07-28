@@ -15,4 +15,6 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
     Optional<List<Contact>> getContactsByPersonUuid(String uuid);
 
     List<Contact> findAll(@Nullable Specification<Contact> specification);
+
+    Optional<Contact> findByUuid(String uuid);
 }

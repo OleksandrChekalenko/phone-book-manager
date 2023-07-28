@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.Date;
 import java.util.UUID;
@@ -21,6 +23,8 @@ import java.util.UUID;
 @FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE contact SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Contact {
 
     @Id
@@ -37,4 +41,5 @@ public class Contact {
     private Person person;
     private Date createdAt;
     private Date updatedAt;
+    private boolean deleted;
 }

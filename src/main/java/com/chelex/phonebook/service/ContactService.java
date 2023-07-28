@@ -52,4 +52,11 @@ public class ContactService {
         List<Contact> all = contactRepository.findAll(specification);
         return contactConverter.convert(all);
     }
+
+    public void deletePersonByUuid(String uuid) {
+        Contact contact = contactRepository.findByUuid(uuid).orElseThrow(() ->
+              new EntityNotFoundException(
+                    String.format("Cannot find contact with UUID: %s.", uuid)));
+        contactRepository.delete(contact);
+    }
 }
