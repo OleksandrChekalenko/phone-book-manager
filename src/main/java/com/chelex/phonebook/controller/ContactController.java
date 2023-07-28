@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/contacts")
 @Validated
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
 
-    @GetMapping("/contacts")
+    @GetMapping
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactById(
             @RequestParam(value = "person-id") Long personId) {
 
@@ -33,7 +34,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/contacts/{personUuid}/get")
+    @GetMapping("/{personUuid}/get")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactsByUuid(
             @PathVariable @UUID String personUuid) {
 
@@ -42,7 +43,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/contacts/search/{personUuid}")
+    @GetMapping("/search/{personUuid}")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> searchContacts(
             @PathVariable @UUID String personUuid,
             @RequestParam(value = "first-name", required = false) String firstName,
@@ -60,5 +61,11 @@ public class ContactController {
         List<ContactDto> contacts = contactService.searchContactsByCriteria(contactSearchCriteria);
 
         return ResponseEntity.ok(SuccessResponse.<List<ContactDto>>builder().data(contacts).build());
+    }
+
+    @DeleteMapping("/delete/{uuid}")
+    public ResponseEntity<Void> deleteContactByUuid(@PathVariable @UUID String uuid) {
+        contactService.deletePersonByUuid(uuid);
+        return ResponseEntity.noContent().build();
     }
 }
