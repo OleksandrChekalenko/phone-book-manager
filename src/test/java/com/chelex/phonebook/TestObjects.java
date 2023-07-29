@@ -2,6 +2,7 @@ package com.chelex.phonebook;
 
 import com.chelex.phonebook.domain.dto.ContactDto;
 import com.chelex.phonebook.domain.dto.PersonDto;
+import com.chelex.phonebook.domain.entity.Person;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,12 @@ public class TestObjects {
                 .city("Kyiv")
                 .createdAt(new Date())
                 .updatedAt(new Date())
+                .build();
+    }
+
+    public static Person getPerson(String firstName) {
+        return Person.builder()
+                .firstName(firstName)
                 .build();
     }
 }

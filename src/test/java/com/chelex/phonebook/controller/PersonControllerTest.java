@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-//@ExtendWith(SpringExtension.class)
 @WebMvcTest(PersonController.class)
 class PersonControllerTest {
 
@@ -36,9 +35,9 @@ class PersonControllerTest {
         private static final String FIRST_NAME_PARAM = "first-name";
         private static final String PERSON_UUID_PARAM = "uuid";
 
-        private static final String GET_ALL_PATH = BASE_PATH + "/persons";
-        private static final String GET_PERSON_BY_UUID_PATH = BASE_PATH + "/personByUuid";
-        private static final String GET_PERSON_BY_NAME_PATH = BASE_PATH + "/person";
+        private static final String GET_ALL_PATH = BASE_PATH + "/persons/getAll";
+        private static final String GET_PERSON_BY_UUID_PATH = BASE_PATH + "/persons/personByUuid";
+        private static final String GET_PERSON_BY_NAME_PATH = BASE_PATH + "/persons";
 
         @Test
         @SneakyThrows
@@ -58,14 +57,14 @@ class PersonControllerTest {
         @Test
         @SneakyThrows
         void getPersonByName_ValidParam_ShouldSuccess() {
-            Mockito.when(personService.getPerson(FIRST_NAME)).thenReturn(TestObjects.getPersonDto(FIRST_NAME));
+            Mockito.when(personService.getPersonByFirstName(FIRST_NAME)).thenReturn(TestObjects.getPersonDto(FIRST_NAME));
 
             mockMvc.perform(MockMvcRequestBuilders.get(GET_PERSON_BY_NAME_PATH).param(FIRST_NAME_PARAM, FIRST_NAME))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.data." + FIRST_NAME_PARAM).value(FIRST_NAME));
 
-            Mockito.verify(personService).getPerson(FIRST_NAME);
+            Mockito.verify(personService).getPersonByFirstName(FIRST_NAME);
         }
 
         @Test
@@ -75,18 +74,14 @@ class PersonControllerTest {
             Mockito.when(personService.getPersonByUuid(personUuid)).thenReturn(TestObjects.getPersonDtoWithUuid(personUuid));
 
             mockMvc.perform(MockMvcRequestBuilders.get(GET_PERSON_BY_UUID_PATH).param(PERSON_UUID_PARAM, personUuid))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.uuid").value(personUuid));
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data").exists())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.data.uuid").value(personUuid));
 //            .andExpect etc
 
             Mockito.verify(personService).getPersonByUuid(personUuid);
         }
 
         //TODO: add negative case, validation case, throw exception case
-    }
-
-    @Test
-    void createPerson() {
     }
 }

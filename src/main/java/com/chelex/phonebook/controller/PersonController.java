@@ -33,7 +33,7 @@ public class PersonController {
     @GetMapping("/persons")
     public ResponseEntity<SuccessResponse<PersonDto>> getPersonByName(
             @RequestParam(value = "first-name") String firstName) {
-        PersonDto person = personService.getPerson(firstName);
+        PersonDto person = personService.getPersonByFirstName(firstName);
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(person).build());
     }
 

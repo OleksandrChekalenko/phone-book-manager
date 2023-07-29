@@ -25,7 +25,7 @@ public class PersonService {
         return personConverter.convert(personRepository.findAll());
     }
 
-    public PersonDto getPerson(String firstName) {
+    public PersonDto getPersonByFirstName(String firstName) {
         Person person = personRepository.getReferenceByFirstName(firstName)
                 .orElseThrow(() ->
                         new EntityNotFoundException(
