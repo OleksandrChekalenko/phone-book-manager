@@ -22,23 +22,23 @@ public class S3BucketStorageController {
 
     private final S3BucketStorageService s3Service;
 
-    @PostMapping("/file/upload")
+    @PostMapping("s3/file/upload")
     public ResponseEntity<String> uploadFile(@RequestParam String folderPath,
                                              @RequestParam MultipartFile file) {
         return new ResponseEntity<>(s3Service.uploadFile(file, folderPath), HttpStatus.OK);
     }
 
-    @GetMapping("/all-files-names")
+    @GetMapping("s3/all-files-names")
     public ResponseEntity<List<String>> getFilesNames() {
         return new ResponseEntity<>(s3Service.getListFilesNames(), HttpStatus.OK);
     }
 
-    @GetMapping("/all-files")
+    @GetMapping("s3/all-files")
     public ResponseEntity<List<S3ObjectSummary>> getFiles() {
         return new ResponseEntity<>(s3Service.getFiles(), HttpStatus.OK);
     }
 
-    @GetMapping("/download/{fileName}")
+    @GetMapping("s3/download/{fileName}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) {
         return ResponseEntity.ok()
                 .contentType(S3Utils.contentType(fileName))
@@ -46,7 +46,7 @@ public class S3BucketStorageController {
                 .body(s3Service.downloadFile(fileName).toByteArray());
     }
 
-    @GetMapping(value = "/delete/{fileName}")
+    @GetMapping(value = "s3/delete/{fileName}")
     public ResponseEntity<String> deleteFile(@PathVariable String fileName, @RequestParam String filePath) {
         return new ResponseEntity<>(s3Service.deleteFile(filePath, fileName), HttpStatus.OK);
     }

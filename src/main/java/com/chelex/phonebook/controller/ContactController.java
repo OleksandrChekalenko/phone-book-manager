@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/contacts")
+@RequestMapping("/api/v1")
 @Validated
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
 
-    @GetMapping
+    @GetMapping("/contacts")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactById(
             @RequestParam(value = "person-id") Long personId) {
 
@@ -34,7 +34,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/{personUuid}/get")
+    @GetMapping("/contacts/{personUuid}/get")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactsByUuid(
             @PathVariable @UUID String personUuid) {
 
@@ -43,7 +43,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/search/{personUuid}")
+    @GetMapping("/contacts/search/{personUuid}")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> searchContacts(
             @PathVariable @UUID String personUuid,
             @RequestParam(value = "first-name", required = false) String firstName,
@@ -63,7 +63,7 @@ public class ContactController {
         return ResponseEntity.ok(SuccessResponse.<List<ContactDto>>builder().data(contacts).build());
     }
 
-    @DeleteMapping("/delete/{uuid}")
+    @DeleteMapping("/contacts/delete/{uuid}")
     public ResponseEntity<Void> deleteContactByUuid(@PathVariable @UUID String uuid) {
         contactService.deletePersonByUuid(uuid);
         return ResponseEntity.noContent().build();

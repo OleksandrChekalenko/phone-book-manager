@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,7 +39,9 @@ public class S3BucketStorageService {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucketName, filePath + file.getOriginalFilename(), file.getInputStream(), metadata);
+            amazonS3Client.putObject(bucketName,
+                    filePath + file.getOriginalFilename(),
+                    file.getInputStream(), metadata);
             return "File uploaded: " + file.getOriginalFilename();
         } catch (IOException ioe) {
             log.error("IOException: " + ioe.getMessage());
@@ -56,7 +57,7 @@ public class S3BucketStorageService {
 
     public List<String> getListFilesNames() {
         ObjectListing objectListing = amazonS3Client.listObjects(bucketName);
-        return objectListing.getObjectSummaries().stream().map(S3ObjectSummary::getKey).collect(Collectors.toList());
+        return objectListing.getObjectSummaries().stream().map(S3ObjectSummary::getKey).toList();
     }
 
     public List<S3ObjectSummary> getFiles() {
@@ -101,7 +102,7 @@ public class S3BucketStorageService {
                     + bucketName + "/" + fullPath);
         }
 
-        throw new EntityNotFoundException("File is NOT deleted for some reason. Full path: " + bucketName + "/" + fullPath);
-
+        throw new EntityNotFoundException("File is NOT deleted for some reason. Full path: "
+                + bucketName + "/" + fullPath);
     }
 }

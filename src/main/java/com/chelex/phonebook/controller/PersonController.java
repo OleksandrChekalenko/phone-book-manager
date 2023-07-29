@@ -18,32 +18,32 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/persons")
+@RequestMapping("/api/v1")
 @Validated
 @RequiredArgsConstructor
 public class PersonController {
 
     private final PersonService personService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/persons/getAll")
     public ResponseEntity<SuccessResponse<List<PersonDto>>> getAll() {
         return ResponseEntity.ok(SuccessResponse.<List<PersonDto>>builder().data(personService.getAll()).build());
     }
 
-    @GetMapping
+    @GetMapping("/persons")
     public ResponseEntity<SuccessResponse<PersonDto>> getPersonByName(
             @RequestParam(value = "first-name") String firstName) {
         PersonDto person = personService.getPerson(firstName);
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(person).build());
     }
 
-    @PostMapping
+    @PostMapping("/persons")
     public ResponseEntity<SuccessResponse<PersonDto>> createPerson(@RequestBody @Valid PersonRequest person) {
         PersonDto personDto = personService.createPerson(person);
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder().data(personDto).build());
     }
 
-    @GetMapping("/personByUuid")
+    @GetMapping("/persons/personByUuid")
     public ResponseEntity<SuccessResponse<PersonDto>> getPersonByUuid(@RequestParam String uuid) {
         return ResponseEntity.ok(SuccessResponse.<PersonDto>builder()
                 .data(personService.getPersonByUuid(uuid))
