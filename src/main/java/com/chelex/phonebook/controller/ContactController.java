@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/contacts")
 @Validated
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
 
-    @GetMapping("/contacts")
+    @GetMapping
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactById(
             @RequestParam(value = "person-id") Long personId) {
 
@@ -34,7 +34,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/contacts/{personUuid}/get")
+    @GetMapping("/{personUuid}/get")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> getPersonContactsByUuid(
             @PathVariable @UUID String personUuid) {
 
@@ -43,7 +43,7 @@ public class ContactController {
                 .build());
     }
 
-    @GetMapping("/contacts/search/{personUuid}")
+    @GetMapping("/search/{personUuid}")
     public ResponseEntity<SuccessResponse<List<ContactDto>>> searchContacts(
             @PathVariable @UUID String personUuid,
             @RequestParam(value = "first-name", required = false) String firstName,
