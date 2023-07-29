@@ -63,7 +63,7 @@ public class ContactController {
         return ResponseEntity.ok(SuccessResponse.<List<ContactDto>>builder().data(contacts).build());
     }
 
-    @DeleteMapping("/delete/{uuid}")
+    @DeleteMapping("/contacts/delete/{uuid}")
     public ResponseEntity<Void> deleteContactByUuid(@PathVariable @UUID String uuid) {
         contactService.deletePersonByUuid(uuid);
         return ResponseEntity.noContent().build();

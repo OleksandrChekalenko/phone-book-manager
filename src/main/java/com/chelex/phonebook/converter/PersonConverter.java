@@ -8,14 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PersonConverter {
 
     private final ContactConverter contactConverter;
-
 
     public PersonDto convert(Person person) {
         if (person == null) {
@@ -33,7 +31,7 @@ public class PersonConverter {
     }
 
     public List<PersonDto> convert(List<Person> persons) {
-        return persons.stream().map(this::convert).collect(Collectors.toList());
+        return persons.stream().map(this::convert).toList();
     }
 
     public Person convert(PersonRequest personRequest) {

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.chelex.phonebook.constant.ErrorConstants.CANNOT_FIND_PERSON_WITH_NAME_FORMAT;
+import static com.chelex.phonebook.constant.ErrorConstants.CANNOT_FIND_PERSON_WITH_UUID_FORMAT;
+
 @Service
 @RequiredArgsConstructor
 public class PersonService {
@@ -26,7 +29,7 @@ public class PersonService {
         Person person = personRepository.getReferenceByFirstName(firstName)
                 .orElseThrow(() ->
                         new EntityNotFoundException(
-                                String.format("Person with first name: %s does not exist.", firstName)));
+                                String.format(CANNOT_FIND_PERSON_WITH_NAME_FORMAT, firstName)));
 
         return personConverter.convert(person);
     }
@@ -39,7 +42,7 @@ public class PersonService {
     public PersonDto getPersonByUuid(String uuid) {
         Person person = personRepository.findByUuid(uuid)
                 .orElseThrow(() ->
-                        new EntityNotFoundException(String.format("Person with uuid: %s does not exist.", uuid)));
+                        new EntityNotFoundException(String.format(CANNOT_FIND_PERSON_WITH_UUID_FORMAT, uuid)));
         return personConverter.convert(person);
     }
 }

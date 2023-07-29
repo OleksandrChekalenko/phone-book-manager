@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.chelex.phonebook.constant.ErrorConstants.CANNOT_FIND_CONTACT_WITH_UUID_FORMAT;
+import static com.chelex.phonebook.constant.ErrorConstants.CANNOT_FIND_PERSON_CONTACT_FORMAT;
+
 @Service
 @RequiredArgsConstructor
 public class ContactService {
@@ -40,7 +43,7 @@ public class ContactService {
         List<Contact> contact = contactRepository.getContactsByPersonUuid(uuid)
                 .orElseThrow(() ->
                         new EntityNotFoundException(
-                                String.format("Cannot find persons: %s contacts.", uuid)));
+                                String.format(CANNOT_FIND_PERSON_CONTACT_FORMAT, uuid)));
 
         return contactConverter.convert(contact);
     }
@@ -56,7 +59,7 @@ public class ContactService {
     public void deletePersonByUuid(String uuid) {
         Contact contact = contactRepository.findByUuid(uuid).orElseThrow(() ->
               new EntityNotFoundException(
-                    String.format("Cannot find contact with UUID: %s.", uuid)));
+                    String.format(CANNOT_FIND_CONTACT_WITH_UUID_FORMAT, uuid)));
         contactRepository.delete(contact);
     }
 }
