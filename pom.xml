@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.chelex</groupId>
-    <artifactId>PhoneBook</artifactId>
+    <artifactId>phone-book-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PhoneBook</name>
     <description>Project for Spring Boot</description>
