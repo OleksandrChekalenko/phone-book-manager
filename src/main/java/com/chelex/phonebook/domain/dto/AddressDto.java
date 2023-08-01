@@ -11,14 +11,12 @@ import java.util.Date;
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.KebabCaseStrategy.class)
-public class ContactDto {
+public class AddressDto {
 
-    private String uuid;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private AddressDto address;
+    private String city;
+    private String street;
+    private Integer houseNumber;
+    private String postalCode;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

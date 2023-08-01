@@ -1,5 +1,6 @@
 package com.chelex.phonebook;
 
+import com.chelex.phonebook.domain.dto.AddressDto;
 import com.chelex.phonebook.domain.dto.ContactDto;
 import com.chelex.phonebook.domain.dto.PersonDto;
 import com.chelex.phonebook.domain.entity.Person;
@@ -42,7 +43,18 @@ public class TestObjects {
                 .lastName("TestContactLastName")
                 .email("contact@testemail.com")
                 .phoneNumber("000000000000")
+                .address(getAddressDto())
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+    }
+
+    public static AddressDto getAddressDto() {
+        return AddressDto.builder()
                 .city("Kyiv")
+                .street("Some street")
+                .postalCode("01000")
+                .houseNumber(13)
                 .createdAt(new Date())
                 .updatedAt(new Date())
                 .build();

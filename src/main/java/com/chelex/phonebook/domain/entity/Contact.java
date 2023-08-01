@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,9 @@ public class Contact {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String city;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
