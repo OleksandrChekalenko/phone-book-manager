@@ -1,6 +1,7 @@
 package com.chelex.phonebook.controller;
 
 import com.chelex.phonebook.TestObjects;
+import com.chelex.phonebook.service.KafkaEventProducerService;
 import com.chelex.phonebook.service.PersonService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -17,12 +19,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 @WebMvcTest(PersonController.class)
+@Import({KafkaEventProducerService.class})
 class PersonControllerTest {
 
     private static final String BASE_PATH = "/api/v1";
 
     @MockBean
     private PersonService personService;
+    @MockBean
+    private KafkaEventProducerService kafkaEventProducerService;
 
     @Autowired
     private MockMvc mockMvc;
