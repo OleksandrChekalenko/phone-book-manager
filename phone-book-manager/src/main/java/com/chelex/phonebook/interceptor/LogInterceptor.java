@@ -1,14 +1,19 @@
 package com.chelex.phonebook.interceptor;
 
+import com.chelex.phonebook.service.KafkaEventProducerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
+@RequiredArgsConstructor
 public class LogInterceptor implements HandlerInterceptor {
+
+    private final KafkaEventProducerService kafkaEventProducerService;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -16,8 +21,11 @@ public class LogInterceptor implements HandlerInterceptor {
                              @NotNull Object handler) {
         long startTime = System.currentTimeMillis();
         log.info("\n-------- LogInterception.preHandle --------");
-        log.info("Request URL: " + request.getRequestURL());
+        String requestMessage = "Request URL: " + request.getRequestURL();
+        log.info(requestMessage);
         log.info("Start Time: " + System.currentTimeMillis());
+
+        kafkaEventProducerService.sendMessage("preHandle --> " + requestMessage);
 
         request.setAttribute("startTime", startTime);
 

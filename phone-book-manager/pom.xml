@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.chelex</groupId>
-    <artifactId>phone-book-manager-module</artifactId>
+    <artifactId>phone-book-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>phone-book-manager-module</name>
+    <name>phone-book-manager</name>
     <description>Phone Book</description>
     <packaging>jar</packaging>
     <properties>
