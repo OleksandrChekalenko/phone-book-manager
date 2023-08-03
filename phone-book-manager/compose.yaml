@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: mysql/mysql-server:8.0
+    ports:
+      - target: 3306
+        published: 3390
+        protocol: tcp
+        mode: host
+    restart: always
+    environment:
+      MYSQL_DATABASE: phonebook
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+

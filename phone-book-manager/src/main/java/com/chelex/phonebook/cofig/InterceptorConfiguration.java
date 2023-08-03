@@ -3,14 +3,21 @@ package com.chelex.phonebook.cofig;
 import com.chelex.phonebook.interceptor.OldGetOldPersonInterceptor;
 import com.chelex.phonebook.interceptor.PersonInterceptor;
 import com.chelex.phonebook.interceptor.LogInterceptor;
+import com.chelex.phonebook.service.KafkaEventProducerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 @Configuration
+@RequiredArgsConstructor
 public class InterceptorConfiguration extends WebMvcConfig {
 
     private static final String BASE_PATH = "/api/v1";
+
+    private final KafkaEventProducerService kafkaEventProducerService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void addInterceptors(@NotNull InterceptorRegistry registry) {
@@ -20,7 +27,7 @@ public class InterceptorConfiguration extends WebMvcConfig {
 
     private void generalInterceptorsSetup(InterceptorRegistry registry) {
         // LogInterceptor apply to all URLs.
-        registry.addInterceptor(new LogInterceptor());
+        registry.addInterceptor(new LogInterceptor(kafkaEventProducerService, objectMapper));
     }
 
     private void personControllerInterceptorsSetup(InterceptorRegistry registry) {
