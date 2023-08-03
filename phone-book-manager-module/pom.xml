@@ -9,16 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.chelex</groupId>
-    <artifactId>springboot-moduled-project</artifactId>
+    <artifactId>phone-book-manager-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>phone-book-manager</name>
-    <description>Project for Spring Boot</description>
-    <modules>
-        <module>spring-kafka-producer</module>
-        <module>spring-kafka-consumer</module>
-        <module>phone-book-manager-module</module>
-    </modules>
-    <packaging>pom</packaging>
+    <name>phone-book-manager-module</name>
+    <description>Phone Book</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>17</java.version>
     </properties>
