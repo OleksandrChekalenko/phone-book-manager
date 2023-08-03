@@ -1,6 +1,9 @@
 package com.chelex.phonebook.interceptor;
 
+import com.chelex.phonebook.domain.request.InterceptorDataRequest;
 import com.chelex.phonebook.service.KafkaEventProducerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogInterceptor implements HandlerInterceptor {
 
     private final KafkaEventProducerService kafkaEventProducerService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -24,8 +28,6 @@ public class LogInterceptor implements HandlerInterceptor {
         String requestMessage = "Request URL: " + request.getRequestURL();
         log.info(requestMessage);
         log.info("Start Time: " + System.currentTimeMillis());
-
-        kafkaEventProducerService.sendMessage("preHandle --> " + requestMessage);
 
         request.setAttribute("startTime", startTime);
 
@@ -48,7 +50,8 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request,
                                 @NotNull HttpServletResponse response,
-                                @NotNull Object handler, Exception ex) {
+                                @NotNull Object handler,
+                                Exception ex) throws JsonProcessingException {
         log.info("\n-------- LogInterception.afterCompletion--------");
 
         long endTime = System.currentTimeMillis();
@@ -57,5 +60,11 @@ public class LogInterceptor implements HandlerInterceptor {
         log.info("End Time: " + endTime);
 
         log.info("Time Taken: " + (endTime - startTime));
+        kafkaEventProducerService.sendMessage(
+                objectMapper.writeValueAsString(
+                        InterceptorDataRequest.builder()
+                                .requestUrl(request.getRequestURL().toString())
+                                .requestTime(endTime - startTime)
+                                .build()));
     }
 }

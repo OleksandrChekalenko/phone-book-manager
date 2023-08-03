@@ -1,26 +1,24 @@
 package com.chelex.service;
 
+import com.chelex.domain.InterceptorDataRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class PhoneBookKafkaConsumerService implements CommandLineRunner {
+@RequiredArgsConstructor
+public class PhoneBookKafkaConsumerService {
 
-    @KafkaListener(topics = "phone-book-manager-topic",
+    private final ObjectMapper objectMapper;
+
+    @KafkaListener(topics = "${spring.kafka.consumer.topic}",
                    groupId = "${spring.kafka.consumer.group}")
-    public void consume(String message) {
-        log.error("-------------------Start message-------------------");
-
-        log.info(message);
-
-        log.error("-------------------End message-------------------");
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-
+    public void consume(String message) throws JsonProcessingException {
+        InterceptorDataRequest data = objectMapper.readValue(message, InterceptorDataRequest.class);
+        log.info(data.toString());
     }
 }

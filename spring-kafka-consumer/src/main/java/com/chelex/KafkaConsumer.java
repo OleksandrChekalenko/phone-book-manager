@@ -13,7 +13,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
         HibernateJpaAutoConfiguration.class})
 public class KafkaConsumer {
     public static void main(String[] args) {
-//        SpringApplication.run(KafkaConsumer.class);
         new SpringApplicationBuilder(KafkaConsumer.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
