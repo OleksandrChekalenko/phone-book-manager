@@ -1,8 +1,8 @@
 package com.chelex.phonebook.cofig;
 
-import com.chelex.phonebook.interceptor.OldGetOldPersonInterceptor;
-import com.chelex.phonebook.interceptor.PersonInterceptor;
-import com.chelex.phonebook.interceptor.LogInterceptor;
+import com.chelex.phonebook.controller.interceptor.OldGetOldPersonInterceptor;
+import com.chelex.phonebook.controller.interceptor.PersonInterceptor;
+import com.chelex.phonebook.controller.interceptor.LogInterceptor;
 import com.chelex.phonebook.service.KafkaEventProducerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotNull;

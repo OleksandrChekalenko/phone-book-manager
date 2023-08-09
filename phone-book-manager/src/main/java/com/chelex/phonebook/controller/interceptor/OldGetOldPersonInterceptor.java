@@ -1,5 +1,6 @@
-package com.chelex.phonebook.interceptor;
+package com.chelex.phonebook.controller.interceptor;
 
+import com.chelex.phonebook.util.InterceptorEnableController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,9 @@ public class OldGetOldPersonInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              @NotNull Object handler) throws IOException {
+        if (!InterceptorEnableController.isEnabled()) {
+            return true;
+        }
 
         log.info("\n-------- OldGetOldPersonInterceptor.preHandle --- ");
         log.info("Request URL: " + request.getRequestURL());
