@@ -39,6 +39,7 @@
 
         <property name="basedir" value="${basedir}"/>
     -->
+    <module name="SuppressWarningsFilter"/>
     <property name="severity" value="error"/>
 
     <property name="fileExtensions" value="java, properties, xml"/>
