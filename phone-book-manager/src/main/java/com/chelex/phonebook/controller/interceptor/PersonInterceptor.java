@@ -1,5 +1,6 @@
-package com.chelex.phonebook.interceptor;
+package com.chelex.phonebook.controller.interceptor;
 
+import com.chelex.phonebook.util.InterceptorEnableController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,10 @@ public class PersonInterceptor implements HandlerInterceptor {
     public boolean preHandle(@NotNull HttpServletRequest request,
                              @NotNull HttpServletResponse response,
                              @NotNull Object handler) {
+
+        if (!InterceptorEnableController.isEnabled()) {
+            return true;
+        }
 
         log.info("\n-------- PersonInterceptor.preHandle --- ");
         return true;

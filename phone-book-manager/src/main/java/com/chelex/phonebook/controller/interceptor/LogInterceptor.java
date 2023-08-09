@@ -1,8 +1,9 @@
-package com.chelex.phonebook.interceptor;
+package com.chelex.phonebook.controller.interceptor;
 
 import com.chelex.phonebook.domain.request.InterceptorDataRequest;
 import com.chelex.phonebook.service.KafkaEventProducerService;
 import com.chelex.phonebook.util.ColoredLog;
+import com.chelex.phonebook.util.InterceptorEnableController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,10 @@ public class LogInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              @NotNull HttpServletResponse response,
                              @NotNull Object handler) {
+        if (!InterceptorEnableController.isEnabled()) {
+            return true;
+        }
+
         long startTime = System.currentTimeMillis();
         ColoredLog.info("\n-------- LogInterception.preHandle --------");
         String requestMessage = REQUEST_URL + request.getRequestURL();
@@ -44,6 +49,9 @@ public class LogInterceptor implements HandlerInterceptor {
                            @NotNull HttpServletResponse response,
                            @NotNull Object handler,
                            ModelAndView modelAndView) {
+        if (!InterceptorEnableController.isEnabled()) {
+            return;
+        }
 
         log.info("\n-------- LogInterception.postHandle--------");
         log.info(REQUEST_URL + request.getRequestURL());
@@ -57,19 +65,27 @@ public class LogInterceptor implements HandlerInterceptor {
                                 @NotNull HttpServletResponse response,
                                 @NotNull Object handler,
                                 Exception ex) throws JsonProcessingException {
+        if (!InterceptorEnableController.isEnabled()) {
+            return;
+        }
+
         log.info("\n-------- LogInterception.afterCompletion--------");
 
         long endTime = System.currentTimeMillis();
-        long startTime = (Long) request.getAttribute("startTime");
+        Object startTime = request.getAttribute("startTime");
+        if (startTime == null) {
+            return;
+        }
+        long startTimeMls = (Long) startTime;
         log.info(REQUEST_URL + request.getRequestURL());
         log.info("End Time: " + endTime);
 
-        log.info("Time Taken: " + (endTime - startTime));
+        log.info("Time Taken: " + (endTime - startTimeMls));
         kafkaEventProducerService.sendMessage(
                 objectMapper.writeValueAsString(
                         InterceptorDataRequest.builder()
                                 .requestUrl(request.getRequestURL().toString())
-                                .requestTime(endTime - startTime)
+                                .requestTime(endTime - startTimeMls)
                                 .build()));
     }
 }
